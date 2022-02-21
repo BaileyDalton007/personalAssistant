@@ -61,3 +61,7 @@ r = requests.post(url, headers={
 response = r.json()
 response = response['results']
 todayItems = parseResponse(response)
+
+for i in range(len(todayItems)):
+    print(todayItems[i].name)
+    print(todayItems[i].date)
