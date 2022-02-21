@@ -4,8 +4,6 @@ import pyttsx3
 import notion
 import responses
 
-name = 'arnold'
-
 listener = sr.Recognizer()
 listener.energy_threshold = 105 # use python -m speech_recognition
 listener.dynamic_energy_threshold = True
@@ -27,12 +25,9 @@ def awaitCommand():
             voice = listener.listen(source)
             command = listener.recognize_google(voice)
             command = command.lower()
-            if name in command:
-                command = command.replace(name, '')
-                print(command)
-                return command
-            else:
-                print(command)
+            print(command)
+            return command
+
     except:
         pass
 
@@ -48,15 +43,6 @@ def commandHandler(command):
             response = responses.tomorrowEvents(data)
             output(response)
         
-        if 'when is' in command:
-            # Returns anything after "when is"
-            event = command.split("when is", 1)[1]
-            
-            # TODO error response if cmd is incorrect or no event
-            dt, day = notion.getTimeEvent(event)
-            response = responses.timeEvent(dt, day, event)
-            output(response)
-
 def main():
     command = awaitCommand()
     commandHandler(command)

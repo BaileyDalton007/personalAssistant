@@ -100,58 +100,7 @@ def getTomorrowEvents():
         }
     })
 
-def getTimeEvent(eventName):
-    url = f'https://api.notion.com/v1/databases/{calendardb}/query'
-
-    r = requests.post(url, headers={
-        "Authorization": f"Bearer {token}",
-        "Notion-Version": "2021-08-16"
-    }, json={
-        'sorts': [
-            {
-                'property': 'Date',
-                'direction': 'descending'
-            }
-        ],
-        'filter': {
-            'property': 'Date',
-            'date': {
-                'on_or_after': getTime(),
-                'time_zone': 'US/Eastern'
-            }
-        }
-    })
-
     response = r.json()
     response = response['results']
     items = parseResponse(response)
-
-    # Iterate through items after today to find FIRST item with same name
-    for i in range(len(items)):
-        if " " + items[i].name[0].lower() == eventName:
-            # exact date and time and date of event
-            dt, day = '', ''
-
-            # Checks if there is a time on the event
-            e = items[i].date
-            if len(e) > 10:
-                fmt = '%Y-%m-%dT%H:%M:%S'
-
-                # Cuts off time zone data
-                e = e[:len(e)-10]
-                dt = datetime.strptime(e, fmt)
-
-                # Cuts off time data
-                fmt = '%Y-%m-%d'
-                e = e[:len(e)-9]
-                day = datetime.strptime(e, fmt)
-                
-
-            else:
-                fmt = '%Y-%m-%d'
-                dt = datetime.strptime(e, fmt)
-                day = 0
-
-            return dt, day
-
-    return 1
+    return items

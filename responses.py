@@ -44,35 +44,5 @@ def tomorrowEvents(data):
     
     return output
 
-def timeEvent(dt, day, event):
-    output = ""
-
-    # Checks if time on event
-    if day == 0:
-        dayName = dt.strftime('%A')
-        monthName = dt.strftime('%B')
-        dateName = dt.strftime('%d')
-
-        # Removes leading zeros
-        while dateName[0] == "0":
-            dateName = dateName[1:]
-
-        # Adds suffix to date
-        d = int(dateName)
-        if 4 <= d <= 20 or 24 <= d <= 30:
-            dateName = dateName + "th"
-        else:
-            dateName = dateName + ["st", "nd", "rd"][d % 10 - 1]
-        
-        output = event + " is on " + dayName + " " + monthName + " " + dateName
-    else:
-        print(day)
-        print(getToday())
-        if day == getToday():
-            print('hi')
-
-    return output
-
-        
 
 
