@@ -32,17 +32,16 @@ def awaitCommand():
         pass
 
 def commandHandler(command):
-    if command != None:
-        if 'notion' in command:
-            if 'today' in command:
-                data = notion.getTodayEvents()
-                response = responses.todayEvents(data)
-                output(response)
+    if 'notion' in command:
+        if 'today' in command:
+            data = notion.getTodayEvents()
+            response = responses.todayEvents(data)
+            output(response)
 
-            if 'tomorrow' in command:
-                data = notion.getTomorrowEvents()
-                response = responses.tomorrowEvents(data)
-                output(response)
+        if 'tomorrow' in command:
+            data = notion.getTomorrowEvents()
+            response = responses.tomorrowEvents(data)
+            output(response)
 
 def main():
     command = awaitCommand()
