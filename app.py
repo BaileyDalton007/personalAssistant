@@ -3,7 +3,6 @@ from gtts import gTTS
 from io import BytesIO
 from pydub import AudioSegment
 from pydub.playback import play
-from pydub.utils import which
 
 import notion
 import responses
