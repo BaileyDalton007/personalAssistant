@@ -1,21 +1,25 @@
 import speech_recognition as sr
-import pyttsx3
+from gtts import gTTS
+from io import BytesIO
+from pydub import AudioSegment
+from pydub.playback import play
+from pydub.utils import which
 
 import notion
 import responses
 
 listener = sr.Recognizer()
-listener.energy_threshold = 105 # use python -m speech_recognition
+listener.energy_threshold = 105 # use python3.7 -m speech_recognition
 listener.dynamic_energy_threshold = True
 
-tts = pyttsx3.init()
-tts.setProperty('rate', 120)
-voices = tts.getProperty('voices')
-tts.setProperty('voice', voices[0].id)
-
 def output(input):
-    tts.say(input)
-    tts.runAndWait()
+    mp3_fp = BytesIO()
+    tts = gTTS(input, lang="en", tld="com")
+    tts.write_to_fp(mp3_fp)
+    mp3_fp.seek(0)
+
+    song = AudioSegment.from_file(mp3_fp, format="mp3")
+    play(song)
 
 def awaitCommand():
     try:
