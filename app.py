@@ -7,6 +7,9 @@ from pydub.playback import play
 import notion
 import responses
 
+# activation word for the assistant, all lowercase
+NAME = 'mirror'
+
 listener = sr.Recognizer()
 listener.energy_threshold = 105 # use python3.7 -m speech_recognition
 listener.dynamic_energy_threshold = True
@@ -29,8 +32,10 @@ def awaitCommand():
             command = listener.recognize_google(voice)
             command = command.lower()
             print(command)
-            return command
-
+            if NAME in command:
+                return command
+            else:
+                return 1
     except:
         pass
 
@@ -45,10 +50,15 @@ def commandHandler(command):
             data = notion.getTomorrowEvents()
             response = responses.tomorrowEvents(data)
             output(response)
+    else:
+        output("Command is not recognized")
 
 def main():
     command = awaitCommand()
-    commandHandler(command)
+
+    if command != 1:
+        commandHandler(command)
 
 if __name__ == "__main__":
-    main()
+    while True:
+        main()
